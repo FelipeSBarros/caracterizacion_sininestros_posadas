@@ -16,11 +16,14 @@ Más allá de la ubicación geográfica, el conjunto de datos dispone de una tab
 - Herramienta: Herramienta usada para la georeferenciación ("Geocoding" o "Manual")
 - URL de la noticia;
 
-# Otros Datos
-- [IDE Posadas](https://www.ide.posadas.gob.ar/):
-  - 
-- [IDE Misiones](https://ide.ordenamientoterritorial.misiones.gob.ar/):
-  - Límite Municipal 2023;
+# Otros Datos  
+
+- [IDE Posadas](https://www.ide.posadas.gob.ar/):  
+  - [Semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos)  
+  - [Red vial](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:red_vial_0305)  
+- [IDE Misiones](https://ide.ordenamientoterritorial.misiones.gob.ar/):  
+  - Límite Municipal 2023;  
+
 ## Objetivos
 Realizar un análisis exploratório usando técnicas y estadśiticas espaciales para caracterizar los siniestro viales reportados y georreferenciados en Posadas;
 
