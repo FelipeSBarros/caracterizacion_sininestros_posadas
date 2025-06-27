@@ -49,25 +49,41 @@ tmap_save(
 
 
 # Analisis de segunda orden ----
+raio = 0:500
 L <- envelope(
   siniestros_ppp, 
   Lest, 
   nsim = 100, 
-  verbose = T)
+  verbose = T, 
+  r=raio
+)
 
 # Visualizando el resultado
-plot(L, .-r~r)
+plot(L, 
+     . - r ~ r,
+     main = "Interação espacial de los siniestros viales de Posadas acorde hipotesis homegenea",
+     xlab = "Distância r",
+     ylab = "L(r) - r",
+     # col = "red",
+     shade = c("hi", "lo"),
+     legend = FALSE)
 
 # L-function for IPP
-L_inhom <- envelope(siniestros_ppp, Linhom, nsim = 100, verbose = T)
+L_inhom <- envelope(
+  siniestros_ppp, 
+  Linhom, 
+  nsim = 100, 
+  verbose = T, 
+  r=raio)
 
 # guardando resultado
 png(filename = "./figs/Linhom_siniestros.png", width = 1600, height = 1200, res = 300)
-plot(L_inhom, . - r ~ r,
+plot(L_inhom, 
+     . - r ~ r,
      main = "Interação espacial de los siniestros viales de Posadas",
      xlab = "Distância r",
      ylab = "L(r) - r",
-     col = "red",
+     # col = "red",
      shade = c("hi", "lo"),
      legend = FALSE)
 dev.off()
@@ -75,8 +91,19 @@ dev.off()
 # Analisis en relacion a los semaforos ---
 # Bivariate Second Order Analysis (Análise de segunda ordem bivariada) ---
 # L-function for IPP
-raio = 0:500
-L_inhom <- envelope(siniestros_semaforos_ppp, Lcross.inhom, nsim = 100, verbose = T, r=raio)
+L_inhom_bivar <- envelope(
+  siniestros_semaforos_ppp, 
+  Lcross.inhom, 
+  nsim = 100, 
+  verbose = T, r=raio)
 png(filename = "./figs/Linhom_siniestros_semaforos.png", width = 1600, height = 1200, res = 300)
-plot(L_inhom, .-r ~ r, legend = FALSE)
+plot(
+  L_inhom_bivar, 
+  . - r ~ r,
+  main = "Interação espacial de los siniestros viales de Posadas",
+  xlab = "Distância r",
+  ylab = "L(r) - r",
+  # col = "red",
+  shade = c("hi", "lo"),
+  legend = FALSE)
 dev.off()
