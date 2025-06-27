@@ -16,6 +16,11 @@ Más allá de la ubicación geográfica, el conjunto de datos dispone de una tab
 - Herramienta: Herramienta usada para la georeferenciación ("Geocoding" o "Manual")
 - URL de la noticia;
 
+# Otros Datos
+- [IDE Posadas](https://www.ide.posadas.gob.ar/):
+  - 
+- [IDE Misiones](https://ide.ordenamientoterritorial.misiones.gob.ar/):
+  - Límite Municipal 2023;
 ## Objetivos
 Realizar un análisis exploratório usando técnicas y estadśiticas espaciales para caracterizar los siniestro viales reportados y georreferenciados en Posadas;
 
@@ -25,3 +30,6 @@ Algunas preguntas disparadoras y posibles análisis a usar:
 - Los siniestros viales seuelen ocurrir cerca a semáforos? Sería una pregunta proxy para identificar si suelen ocurrir en cruce;
   - Análisis bu-variada de segunda orden (Función k-ripley entre siniestros y [semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos);
 
+# Scripts y análisis
+0. [Preparación y preprocesamiento de datos](./scripts/R/0_.R): Script creado para filtrar y organizar datos para el procesamiento, generando un `.rda` a ser cargado en los scripts subsecuentes;
+1. [](./scripts/R/1_.R):  ;
