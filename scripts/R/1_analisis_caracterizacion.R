@@ -95,7 +95,8 @@ L_inhom_bivar <- envelope(
   siniestros_semaforos_ppp, 
   Lcross.inhom, 
   nsim = 100, 
-  verbose = T, r=raio)
+  verbose = T, 
+  r=raio)
 png(filename = "./figs/Linhom_siniestros_semaforos.png", width = 1600, height = 1200, res = 300)
 plot(
   L_inhom_bivar, 

@@ -37,6 +37,7 @@ Algunas preguntas disparadoras y posibles análisis a usar:
 
 - Los siniestros viales seuelen ocurrir cerca a semáforos?
   - Análisis bi-variada de segunda orden (Función k-ripley entre siniestros y [semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos);
+
 ![](./figs/Linhom_siniestros_semaforos.png)
 
 # Scripts y análisis
