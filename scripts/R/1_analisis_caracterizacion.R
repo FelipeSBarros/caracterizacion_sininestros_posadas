@@ -29,31 +29,47 @@ terra::crs(Kernel_diggle) <- 'EPSG:5349'
 names(Kernel_diggle) <- 'Densidad kernel'
 
 # Mapa con el resultado
-tm_shape(lim_posadas) +
-  tm_borders() +
-  tm_shape(Kernel_diggle) +
-  tm_raster() +
+tm_shape(Kernel_diggle) +
+  tm_raster(
+    col = "Densidad kernel",
+    col.scale = tm_scale_continuous(
+      values = "viridis", 
+      midpoint = NA
+    ),
+    col.legend = tm_legend(reverse = TRUE)
+  ) +
   tm_shape(lim_posadas) +
   tm_borders() +
-  tm_legend(legend.outside = T) +
-  tm_graticules(lwd = 0) + 
-  tm_title("Siniestros viales (2022-2023")
-#tmap_save(filename = "./img/kernel.png")
+  tm_graticules(lwd = 0) +
+  tm_title("Siniestros viales (2022-2023)")
+tmap_save(
+  filename = "./figs/KernelDensity_siniestros.png",
+  dpi = 300
+)
 
 
 # Analisis de segunda orden ----
 L <- envelope(
   siniestros_ppp, 
   Lest, 
-  nsim = 1000, 
+  nsim = 100, 
   verbose = T)
 
 # Visualizando el resultado
 plot(L, .-r~r)
 
 # L-function for IPP
-L_inhom <- envelope(siniestros_ppp, Linhom, nsim = 10, verbose = T)
-plot(L_inhom, . -r ~ r)
-plot(siniestros_ppp)
+L_inhom <- envelope(siniestros_ppp, Linhom, nsim = 100, verbose = T)
+
+# guardando resultado
+png(filename = "./figs/Linhom_siniestros.png", width = 1600, height = 1200, res = 300)
+plot(L_inhom, . - r ~ r,
+     main = "Interação espacial de los siniestros viales de Posadas",
+     xlab = "Distância r",
+     ylab = "L(r) - r",
+     col = "red",
+     shade = c("hi", "lo"),
+     legend = FALSE)
+dev.off()
 
 # Analisis en relacion a los semaforos

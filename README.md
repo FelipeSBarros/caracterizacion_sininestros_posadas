@@ -30,6 +30,11 @@ Realizar un análisis exploratório usando técnicas y estadśiticas espaciales 
 Algunas preguntas disparadoras y posibles análisis a usar:
 - Los siniestros ocurridos suelen ocurrir a qué distancia uno de los otros?
   - Análisis de segunda orden (Función k-Ripley)
+
+![](./figs/KernelDEnsity_siniestros.png)
+
+![](./figs/Linhom_siniestros.png)
+
 - Los siniestros viales seuelen ocurrir cerca a semáforos? Sería una pregunta proxy para identificar si suelen ocurrir en cruce;
   - Análisis bu-variada de segunda orden (Función k-ripley entre siniestros y [semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos);
 

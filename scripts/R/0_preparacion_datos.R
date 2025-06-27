@@ -33,7 +33,7 @@ posadas_win <- as.owin(lim_posadas)
 # de sf a classe sp
 siniestros_ppp <- as.ppp(
   siniestros,
-  window = posadas_win) # avisos de que hay siniestro afuera del limite de posadas. No hay problema
+  W = posadas_win) # avisos de que hay siniestro afuera del limite de posadas. No hay problema
 
 # Crea rds ----
 save.image('./datos/datos_preprocesados.rds')
