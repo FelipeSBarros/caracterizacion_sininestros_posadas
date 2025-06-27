@@ -72,4 +72,11 @@ plot(L_inhom, . - r ~ r,
      legend = FALSE)
 dev.off()
 
-# Analisis en relacion a los semaforos
+# Analisis en relacion a los semaforos ---
+# Bivariate Second Order Analysis (Análise de segunda ordem bivariada) ---
+# L-function for IPP
+raio = 0:500
+L_inhom <- envelope(siniestros_semaforos_ppp, Lcross.inhom, nsim = 100, verbose = T, r=raio)
+png(filename = "./figs/Linhom_siniestros_semaforos.png", width = 1600, height = 1200, res = 300)
+plot(L_inhom, .-r ~ r, legend = FALSE)
+dev.off()
