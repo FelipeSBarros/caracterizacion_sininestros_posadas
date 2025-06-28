@@ -3,7 +3,7 @@
 Repositorio creado para gestionar los análisis de caracterización de los siniestros viales ocurridos en Posadas.
 
 # Al respecto de los datos
-Los datos fueron generados por un proceso de Geocoding o Georreferenciación manual a aparitr de notícias publicadas en el diário Primera Edición, [trabajo desarrollado por Claudia Vargas](https://tusigyt.github.io/lit/proyectos/) como Proyecto de Intervención de la Tecnicatura Universitária en Sistemas de Información Geográfica y Teledetección (TUSIGyT) de la Facultad de Ciencias Forestales (FCF) de la Universidad Nacional de Misiones (UNaM).
+Los datos fueron generados por un proceso de Geocoding o Georreferenciación manual a partir de notícias publicadas en el diário Primera Edición, [trabajo desarrollado por Claudia Vargas](https://tusigyt.github.io/lit/proyectos/), como Proyecto de Intervención de la Tecnicatura Universitária en Sistemas de Información Geográfica y Teledetección (TUSIGyT) de la Facultad de Ciencias Forestales (FCF) de la Universidad Nacional de Misiones (UNaM).
 
 Más allá de la ubicación geográfica, el conjunto de datos dispone de una table de atributos con la siguientes informaciones:  
 - Fecha de publicación: Fecha de la publicación de la notícia de siniestro vial;
@@ -16,7 +16,7 @@ Más allá de la ubicación geográfica, el conjunto de datos dispone de una tab
 - Herramienta: Herramienta usada para la georeferenciación ("Geocoding" o "Manual")
 - URL de la noticia;
 
-## Otros Datos  
+## Otros datos usados  
 
 - [IDE Posadas](https://www.ide.posadas.gob.ar/):  
   - [Semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos)  
@@ -25,17 +25,51 @@ Más allá de la ubicación geográfica, el conjunto de datos dispone de una tab
   - Límite Municipal 2023;  
 
 # Objetivos
-Realizar un análisis exploratório usando técnicas y estadísticas espaciales/geográficas para caracterizar los siniestro viales reportados y georreferenciados en Posadas;
+Realizar un análisis exploratório usando técnicas y estadísticas espaciales/geográficas para caracterizar los siniestro viales ocurridos en Posadas en 2022 y 2023;
 
-Algunas preguntas disparadoras y posibles análisis a usar:
-- ¿Es posible identificar corelación espacial en los siniestros viales ocurridos en Posadas? ¿A que distáncia se puede identificar dicha correlación espacial?
-  - Análisis de segunda orden (Función k-Ripley - [ver](#metodologia) )
+## Algunas preguntas disparadoras y posibles análisis a usar:
+- Los siniestros viales ocurridos en 2022 y 2023 podrían ser caracterizados como Procesos Puntuales Homogéneos (Homogeneous Point Process, en inglés)?
+
+Para ser considerado PPH, los mismos no deben presentar variación en la densidad estimada. Luego, se ha usado el estimados de densidad de kernel para testar dicha hipótesis. El estimador de densidad de kernel es un análisis de primer orden ( [ver](#metodologia) ) que busca identificar el cómo un determinado evento varia en el espaciao geográfico de estudio:
 
 ![](./figs/KernelDensity_siniestros.png)
 
+Como se puede observar, la densidad estimada de siniestros viales presenta variación, con algunas áreas con mayor valor de densidad estimada para la ocurrencia de siniestros viales, a partir de los siniestros conocidos. Con eso, podemos desconsiderar la hipótesis de PPH, por ende, seguiremos los análisis bajo el supuesto de que se trata de un fenómeno de Procesos Puntuales Inhomogéneo (Inhomogeneous Point Process, en inglés).
+
+- ¿Es posible identificar corelación espacial en los siniestros viales ocurridos en Posadas? ¿A que distáncia se puede identificar dicha correlación espacial?
+
+Para poder estimar si los siniestros viales presentan correlación espacial, tendremos como hipótesis nula, la distribución espacial completamente aleatória, modelada por una simulación Monte Carlo, con la misma densidad de eventos observados por el conjunto de datos. Como ya se ha confirmado que los siniestros se caracterizan como procesos puntuales inhomogeneos, usaremos la funciónn k-Ripley transformada para procesos puntuales inhomogeneos. Se trata de un análisis de segundo orden ( [ver](#metodologia) ).
+
 ![](./figs/Linhom_siniestros.png)
 
-- Los siniestros viales seuelen ocurrir cerca a semáforos?
+> Lectura del gráfico: 
+> - Eje vertical: valor estimado de la función k-Ripley;
+>   - Los valores menores a 0 indican tendencia a distribución regular (también conocida como tendencia de hinibición);
+>   - Los valores mayores a 0 indican distribución aglomerada;
+> - Eje horizontal: distância a la cual el valor fue estimado;
+> El área gris, representa el calculo de la función k-Ripley para los 100 processo puntuales simulados bajo supuesto de la distribución espacial completamente aleatória. 
+> El valor estimado de la función k-Ripley para los siniestros viales, línea sólida negra, varia entre positivo y negativo. Sin embargo, mientras se mantiene en el área gris, no presenta evidencias de deviación de la hipótesis nula (H0), dsitribución aleatoria, a dichas distancias. Cuando la línea negra sale del área gris, evidencia que, para dicha distancia se presenta evidencias de la tendencia de: 
+> - o correlación espacial (cuando valor > 0); 
+> - o tendencia de distribución regular (cuando valor < 0);
+
+Con el gráfico de la función k-Ripley transformada se puede percibir que hay dos tendencias de correlación espacial:
+- La primera, a muy corta distancia, cerca a 0, lo que sugiere ser un efecto de siniestros que ocurren sistematicamente en determinadas ubicaciones, y;
+- La segunda, a partir de los 300 metros y hasta casi 500 metros de distancia;
+
+Es decir: Los siniestros viales ocurridos en 2022 y 2023 presentan una estructura de correlación espacial a muy cortas distancias así como, a 300 y 500 metros de distáncia, indicando que la ocurrencia de los mismos se dió de manera estructurada en el espacio. En las demás distancias, los siniestros presentaron características de distribución aleatória, o sea, en ubicaciones casuales.
+
+Cómo el análisis de la función k-Ripley no nos informa dónde se están estructurando los siniestros viales, vamos a ocupar la distancia en la cual identificamos correlación espacial para poder realizar un análisis de agrupación de los siniestros.
+Para dicha análisis de agrupación, vamos a ocupar el algoritmo Density-based Spatial Clustering of Applications with Noise ([DBSCAN](https://en.wikipedia.org/wiki/DBSCAN) ), el cual necesita como parámetros mínimos:
+- `eps`: Distáncia mínima a partir de la cual los puntos deberán estar estar para considerarse como parte de un mismo grupo;  
+- `minPts`: Cantidad mínima de puntos para que sea definido un grupo;
+
+Como pudimos, con la función k-Ripley, identificar evidencias de correlación espacial a partir de los 300 metros, vamos a usar dicho valor para el parámetro `eps`. 
+
+![](./figs/Agrupaciones_500_5_siniestros.png)
+
+Resultado del análisis de agrupación: Se pudo identificar tres regiones donde ocurrienron al menos 5 siniestros viales y a una distáncia de al menos 500 metros.
+
+- Los siniestros viales suelen ocurrir cerca a semáforos?
   - Análisis bi-variada de segunda orden (Función k-ripley entre siniestros y [semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos);
 
 ![](./figs/Linhom_siniestros_semaforos.png)

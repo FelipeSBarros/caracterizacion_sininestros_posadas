@@ -3,16 +3,18 @@ library(spatstat)
 library(sf)
 library(terra)
 library(tmap)
+library(dbscan)
 
 # Cargando datos preprocesados ----
 load('./datos/datos_preprocesados.rds')
 
-#sumario estadistico del point patern
+# Sumario estadistico de los procesos puntuales de siniestros viales
 summary(siniestros_ppp)
 
 # Analisis de primera orden de los siniestros viales en posadas ----
-# contesta a la pregunta si la probabildiad de ocurrir un siniestro vial es igual en todo el área de estudio
-# Es decir: como las ocurrencias de los siniestros viales varian en el espacio. No es de manera homogénea
+# contesta a la pregunta si la probabilidad de ocurrir un siniestro vial es igual en todo el área de estudio
+# Es decir: ¿Cómo las ocurrencias de los siniestros viales varian en el espacio?
+
 # Definiendo rango (bandwidth)
 raio_diggle <- bw.diggle(siniestros_ppp)
 # Calcula densidad de kernel
@@ -20,18 +22,16 @@ Kernel_diggle <- density.ppp(
   siniestros_ppp, 
   sigma = raio_diggle
   )
-# Plot de la densidad de kernel
-plot(Kernel_diggle, main = "raio baseado em Diggle 1989")
 
-# Convertendo kernel para raster ---
+# Convertiendo kernel de im a raster ---
 Kernel_diggle <- terra::rast(Kernel_diggle)
-terra::crs(Kernel_diggle) <- 'EPSG:5349'
-names(Kernel_diggle) <- 'Densidad kernel'
+terra::crs(Kernel_diggle) <- 'EPSG:5348'
+names(Kernel_diggle) <- 'Densidad estimada'
 
 # Mapa con el resultado
 tm_shape(Kernel_diggle) +
   tm_raster(
-    col = "Densidad kernel",
+    col = 'Densidad estimada',
     col.scale = tm_scale_continuous(
       values = "viridis", 
       midpoint = NA
@@ -41,7 +41,7 @@ tm_shape(Kernel_diggle) +
   tm_shape(lim_posadas) +
   tm_borders() +
   tm_graticules(lwd = 0) +
-  tm_title("Siniestros viales (2022-2023)")
+  tm_title("Densidad de siniestros viales (2022-2023)")
 tmap_save(
   filename = "./figs/KernelDensity_siniestros.png",
   dpi = 300
@@ -87,6 +87,44 @@ plot(L_inhom,
      shade = c("hi", "lo"),
      legend = FALSE)
 dev.off()
+
+# Analisis de agrupacion con dbscan ----
+(siniestros_dbscan <- dbscan::dbscan(
+  st_coordinates(siniestros),
+  eps = 500,
+  minPts = 5
+))
+
+siniestros <- siniestros %>%
+  dplyr::mutate(cluster_dbscan_500_5 = siniestros_dbscan$cluster)
+
+siniestros <- siniestros %>%
+  dplyr::filter(cluster_dbscan_500_5 != 0)
+
+siniestros <- siniestros %>%
+  dplyr::mutate(
+    cluster_dbscan_500_5 = paste0("cluster_", cluster_dbscan_500_5),
+    cluster_dbscan_500_5 = as.factor(cluster_dbscan_500_5)
+  )
+
+tm_shape(lim_posadas) +
+  tm_borders() +
+  tm_shape(siniestros) +
+  tm_dots(
+    col = "cluster_dbscan_500_5",
+    # col.scale = tm_scale_categorical(values = "brewer.dark2"),
+    # col.legend = tm_legend(title = ""),
+    palette = "brewer.dark2",
+  ) +
+  tm_graticules(lwd = 0) +
+  tm_title("Agrupaciones de siniestros viales (2022-2023)")
+  # tm_legend(title = "")
+
+tmap_save(
+  filename = "./figs/Agrupaciones_500_5_siniestros.png",
+  dpi = 300
+)
+# st_write(siniestros, "./datos/siniestros_agrupacion.gpkg")
 
 # Analisis en relacion a los semaforos ---
 # Bivariate Second Order Analysis (Análise de segunda ordem bivariada) ---
