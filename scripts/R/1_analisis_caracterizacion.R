@@ -124,7 +124,6 @@ tmap_save(
   filename = "./figs/Agrupaciones_500_5_siniestros.png",
   dpi = 300
 )
-# st_write(siniestros, "./datos/siniestros_agrupacion.gpkg")
 
 # DBScan con pesos ----
 
@@ -172,7 +171,7 @@ tmap_save(
   filename = "./figs/Agrupaciones_500_5_siniestros_lesionados.png",
   dpi = 300
 )
-
+# st_write(siniestros, "./datos/siniestros_agrupacion.gpkg")
 # Decesos
 dbscan::dbscan(
   st_coordinates(siniestros),
