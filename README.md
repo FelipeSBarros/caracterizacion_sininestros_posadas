@@ -36,7 +36,7 @@ Para ser considerado PPH, los mismos no deben presentar variación en la densida
 
 Como se puede observar, la densidad estimada de siniestros viales presenta variación, con algunas áreas con mayor valor de densidad estimada para la ocurrencia de siniestros viales, a partir de los siniestros conocidos. Con eso, podemos desconsiderar la hipótesis de PPH, por ende, seguiremos los análisis bajo el supuesto de que se trata de un fenómeno de Procesos Puntuales Inhomogéneo (Inhomogeneous Point Process, en inglés).
 
-- ¿Es posible identificar corelación espacial en los siniestros viales ocurridos en Posadas? ¿A que distáncia se puede identificar dicha correlación espacial?
+### ¿Es posible identificar corelación espacial en los siniestros viales ocurridos en Posadas? ¿A que distáncia se puede identificar dicha correlación espacial?
 
 Para poder estimar si los siniestros viales presentan correlación espacial, tendremos como hipótesis nula, la distribución espacial completamente aleatória, modelada por una simulación Monte Carlo, con la misma densidad de eventos observados por el conjunto de datos. Como ya se ha confirmado que los siniestros se caracterizan como procesos puntuales inhomogeneos, usaremos la funciónn k-Ripley transformada para procesos puntuales inhomogeneos. Se trata de un análisis de segundo orden ( [ver](#metodologia) ).
 
@@ -77,7 +77,8 @@ Se pudo percibir que, cuando considerada la cantidad de lesionados, tenemos dos 
 
 Por otro lado, al considerar la cnatidad de desesos, ningún grupo fue identificando.
 
-- Los siniestros viales suelen ocurrir cerca a semáforos?
+### Los siniestros viales suelen ocurrir cerca a semáforos?
+  
   - Análisis bi-variada de segunda orden (Función k-ripley entre siniestros y [semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos);
 
 ![](./figs/Linhom_siniestros_semaforos.png)
