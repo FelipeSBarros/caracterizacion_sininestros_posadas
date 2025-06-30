@@ -75,6 +75,8 @@ Se pudo percibir que, cuando considerada la cantidad de lesionados, tenemos dos 
 
 ![](./figs/Agrupaciones_500_5_siniestros_lesionados.png)
 
+Y en este sentido, los siniestros viales que hacen parte del grupo tre ("cluster 3"), del análisis de agrupación que considera exclusivamente la ubicación de los siniestros, componen también, en grupo 2. Y, por otro lado, el análisis de agrupación considerando la cantidad de lesionados identificó un grupo más por la Avda. Quaranta (y Zapiola; y Aguado).
+
 Por otro lado, al considerar la cnatidad de desesos, ningún grupo fue identificando.
 
 ### Los siniestros viales suelen ocurrir cerca a semáforos?

@@ -98,10 +98,10 @@ dev.off()
 siniestros <- siniestros %>%
   dplyr::mutate(cluster_dbscan_500_5 = siniestros_dbscan$cluster)
 
-siniestros <- siniestros %>%
+siniestros_dbscan_500_5 <- siniestros %>%
   dplyr::filter(cluster_dbscan_500_5 != 0)
 
-siniestros <- siniestros %>%
+siniestros_dbscan_500_5 <- siniestros_dbscan_500_5 %>%
   dplyr::mutate(
     cluster_dbscan_500_5 = paste0("cluster_", cluster_dbscan_500_5),
     cluster_dbscan_500_5 = as.factor(cluster_dbscan_500_5)
@@ -109,7 +109,7 @@ siniestros <- siniestros %>%
 
 tm_shape(lim_posadas) +
   tm_borders() +
-  tm_shape(siniestros) +
+  tm_shape(siniestros_dbscan_500_5) +
   tm_dots(
     col = "cluster_dbscan_500_5",
     # col.scale = tm_scale_categorical(values = "brewer.dark2"),
@@ -136,7 +136,7 @@ siniestros <- siniestros %>%
         ),
     Lesionados_ = as.numeric(Lesionados)
   )
-(siniestros_dbscan_lesionados <- dbscan::dbscan(
+(siniestros_dbscan_500_5_lesionados <- dbscan::dbscan(
   st_coordinates(siniestros),
   eps = 500,
   minPts = 5,
@@ -144,12 +144,14 @@ siniestros <- siniestros %>%
 ))
 
 siniestros <- siniestros %>%
-  dplyr::mutate(cluster_dbscan_les_500_5 = siniestros_dbscan_lesionados$cluster)
+  dplyr::mutate(cluster_dbscan_les_500_5 = siniestros_dbscan_500_5_lesionados$cluster)
 
-siniestros <- siniestros %>%
+siniestros_dbscan_500_5_lesionados <- 
+  siniestros %>%
   dplyr::filter(cluster_dbscan_les_500_5 != 0)
 
-siniestros <- siniestros %>%
+siniestros_dbscan_500_5_lesionados <- 
+  siniestros_dbscan_500_5_lesionados %>%
   dplyr::mutate(
     cluster_dbscan_les_500_5 = paste0("cluster_", cluster_dbscan_les_500_5),
     cluster_dbscan_les_500_5 = as.factor(cluster_dbscan_les_500_5)
@@ -157,7 +159,7 @@ siniestros <- siniestros %>%
 
 tm_shape(lim_posadas) +
   tm_borders() +
-  tm_shape(siniestros) +
+  tm_shape(siniestros_dbscan_500_5_lesionados) +
   tm_dots(
     col = "cluster_dbscan_les_500_5",
     # col.scale = tm_scale_categorical(values = "brewer.dark2"),
@@ -171,6 +173,7 @@ tmap_save(
   filename = "./figs/Agrupaciones_500_5_siniestros_lesionados.png",
   dpi = 300
 )
+
 # st_write(siniestros, "./datos/siniestros_agrupacion.gpkg")
 # Decesos
 dbscan::dbscan(
