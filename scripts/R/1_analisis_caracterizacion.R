@@ -126,6 +126,61 @@ tmap_save(
 )
 # st_write(siniestros, "./datos/siniestros_agrupacion.gpkg")
 
+# DBScan con pesos ----
+
+# Lesionados
+siniestros <- siniestros %>%
+  dplyr::mutate(
+    Lesionados = 
+      ifelse(
+        Lesionados == "Varios", "3", Lesionados
+        ),
+    Lesionados_ = as.numeric(Lesionados)
+  )
+(siniestros_dbscan_lesionados <- dbscan::dbscan(
+  st_coordinates(siniestros),
+  eps = 500,
+  minPts = 5,
+  weights = siniestros$Lesionados_
+))
+
+siniestros <- siniestros %>%
+  dplyr::mutate(cluster_dbscan_les_500_5 = siniestros_dbscan_lesionados$cluster)
+
+siniestros <- siniestros %>%
+  dplyr::filter(cluster_dbscan_les_500_5 != 0)
+
+siniestros <- siniestros %>%
+  dplyr::mutate(
+    cluster_dbscan_les_500_5 = paste0("cluster_", cluster_dbscan_les_500_5),
+    cluster_dbscan_les_500_5 = as.factor(cluster_dbscan_les_500_5)
+  )
+
+tm_shape(lim_posadas) +
+  tm_borders() +
+  tm_shape(siniestros) +
+  tm_dots(
+    col = "cluster_dbscan_les_500_5",
+    # col.scale = tm_scale_categorical(values = "brewer.dark2"),
+    # col.legend = tm_legend(title = ""),
+    palette = "brewer.dark2",
+  ) +
+  tm_graticules(lwd = 0) +
+  tm_title("Agrupaciones de siniestros viales (2022-2023)")
+
+tmap_save(
+  filename = "./figs/Agrupaciones_500_5_siniestros_lesionados.png",
+  dpi = 300
+)
+
+# Decesos
+dbscan::dbscan(
+  st_coordinates(siniestros),
+  eps = 500,
+  minPts = 5,
+  weights = siniestros$Decesos
+)
+
 # Analisis en relacion a los semaforos ---
 # Bivariate Second Order Analysis (Análise de segunda ordem bivariada) ---
 # L-function for IPP

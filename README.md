@@ -69,6 +69,14 @@ Como pudimos, con la función k-Ripley, identificar evidencias de correlación e
 
 Resultado del análisis de agrupación: Se pudo identificar tres regiones donde ocurrienron al menos 5 siniestros viales y a una distáncia de al menos 500 metros.
 
+Pero más allá de la ubicación, se hizo un análisis de agrupación considerando la cantidad de lesionados y desesos.
+
+Se pudo percibir que, cuando considerada la cantidad de lesionados, tenemos dos áreas distintas de Posadas presentado correlación: 
+
+![](./figs/Agrupaciones_500_5_siniestros_lesionados.png)
+
+Por otro lado, al considerar la cnatidad de desesos, ningún grupo fue identificando.
+
 - Los siniestros viales suelen ocurrir cerca a semáforos?
   - Análisis bi-variada de segunda orden (Función k-ripley entre siniestros y [semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos);
 
