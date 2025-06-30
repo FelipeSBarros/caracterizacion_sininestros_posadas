@@ -77,7 +77,7 @@ L_inhom <- envelope(
   r=raio)
 
 # guardando resultado
-png(filename = "./figs/Linhom_siniestros.png", width = 1600, height = 1200, res = 300)
+# png(filename = "./figs/Linhom_siniestros.png", width = 1600, height = 1200, res = 300)
 plot(L_inhom, 
      . - r ~ r,
      main = "Interação espacial de los siniestros viales de Posadas",
@@ -190,7 +190,7 @@ L_inhom_bivar <- envelope(
   nsim = 100, 
   verbose = T, 
   r=raio)
-png(filename = "./figs/Linhom_siniestros_semaforos.png", width = 1600, height = 1200, res = 300)
+# png(filename = "./figs/Linhom_siniestros_semaforos.png", width = 1600, height = 1200, res = 300)
 plot(
   L_inhom_bivar, 
   . - r ~ r,

@@ -81,7 +81,11 @@ Por otro lado, al considerar la cnatidad de desesos, ningún grupo fue identific
   
   - Análisis bi-variada de segunda orden (Función k-ripley entre siniestros y [semaforos](https://www.ide.posadas.gob.ar/layers/ideposadas_data:geonode:Semaforos);
 
+Tal cual pudimos identificar si y a qué distancia los siniestros viales ocurridos en 2022 y 2023 presentaron correlación espacial, investigamos sí dichos siniestros presentaron correlación con la presencia de los semáforos.
+
 ![](./figs/Linhom_siniestros_semaforos.png)
+
+Con el análisis de segundo orden, función k-Ripley bivariada (siniestros viales y semáforos), se pudo identificar que, hasta los 200 metros de distáncia de los semáforos, aunque el valor estimado sea positivo, indicando correlación espacial, no hubo deviación significativa, manteniendose en el área gris. Por ende, hasta los 350 metros de distáncia, los siniestros viales ocurrieron de forma delatória en relación a la presencia de los semáforos. A prtir de los 350 metros, el valor estimado de la función k-Ripley presenta deviación de la hipotesis nula (de distribución espacial completamente aleatoria) y con valor negativos, indicando una distribución regular, también conocida como "de hinibición". Es decir, la presencia de semáforos, hace con que los siniestros viales sea hinibidos de manera sistemática a partir de los 350 metros de distáncia.
 
 # Scripts y análisis
 0. [Preparación y preprocesamiento de datos](./scripts/R/0_preparacion_datos.R): Script creado para filtrar y organizar datos para el procesamiento, generando un `.rda` a ser cargado en los scripts subsecuentes;
