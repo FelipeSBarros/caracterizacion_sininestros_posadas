@@ -61,8 +61,8 @@ L <- envelope(
 # Visualizando el resultado
 plot(L, 
      . - r ~ r,
-     main = "Interação espacial de los siniestros viales de Posadas acorde hipotesis homegenea",
-     xlab = "Distância r",
+     main = "",
+     xlab = "Distáncia r",
      ylab = "L(r) - r",
      # col = "red",
      shade = c("hi", "lo"),
@@ -80,8 +80,8 @@ L_inhom <- envelope(
 # png(filename = "./figs/Linhom_siniestros.png", width = 1600, height = 1200, res = 300)
 plot(L_inhom, 
      . - r ~ r,
-     main = "Interação espacial de los siniestros viales de Posadas",
-     xlab = "Distância r",
+     main = "",
+     xlab = "Distáncia r",
      ylab = "L(r) - r",
      # col = "red",
      shade = c("hi", "lo"),
