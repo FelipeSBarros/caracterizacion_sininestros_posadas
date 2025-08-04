@@ -41,7 +41,7 @@ tm_shape(Kernel_diggle) +
   tm_shape(lim_posadas) +
   tm_borders() +
   tm_graticules(lwd = 0) +
-  tm_title("Densidad de siniestros viales (2022-2023)")
+  tm_title("")
 tmap_save(
   filename = "./figs/KernelDensity_siniestros.png",
   dpi = 300
@@ -196,8 +196,8 @@ png(filename = "./figs/Linhom_siniestros_semaforos.png", width = 1600, height = 
 plot(
   L_inhom_bivar, 
   . - r ~ r,
-  main = "Interação espacial de los siniestros viales de Posadas",
-  xlab = "Distância r",
+  main = "",
+  xlab = "Distáncia r",
   ylab = "L(r) - r",
   # col = "red",
   shade = c("hi", "lo"),
